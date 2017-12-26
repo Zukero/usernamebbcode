@@ -1,0 +1,8 @@
+services:
+    zukero.userbbcode.listener:
+        class: zukero\userbbcode\event\main_listener
+        tags:
+            - { name: event.listener }
+        arguments:
+            - '@user_loader'
+            - '@template'
