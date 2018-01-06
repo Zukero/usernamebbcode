@@ -6,3 +6,21 @@ services:
         arguments:
             - '@user_loader'
             - '@template'
+            - '@language'
+     
+    zukero.userbbcode.submitpostlistener:
+        class: zukero\userbbcode\event\submit_post_listener
+        tags:
+            - { name: event.listener }
+        arguments:
+            - '@notification_manager'
+            - '@dbal.conn'
+            - '@language'
+            - '@user'
+    
+    zukero.userbbcode.notification.type.username:
+        class: zukero\userbbcode\notification\type\username
+        shared: false
+        parent: notification.type.quote
+        tags:
+            - { name: notification.type }

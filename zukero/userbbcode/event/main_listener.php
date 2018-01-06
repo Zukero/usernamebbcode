@@ -34,16 +34,21 @@ class main_listener implements EventSubscriberInterface
 	/** @var \phpbb\core\template */
 	protected $template;
 	
+	/** @var \phpbb\language\language */
+	protected $language;
+
 	
-	public function __construct(\phpbb\user_loader $user_loader, \phpbb\template\template $template)
+	public function __construct(\phpbb\user_loader $user_loader, \phpbb\template\template $template, \phpbb\language\language $language)
 	{
-$user_loader->load_user_by_username('anonymous');
+		$user_loader->load_user_by_username('anonymous');
 		$this->user_loader = $user_loader;
 		$this->template = $template;
+		$this->language = $language;
 	}
 
 	public function configure_usernamebbcode($event)
 	{
+		$this->language->add_lang('common', 'zukero/userbbcode');
 		// Get the BBCode configurator 
 		$configurator = $event['configurator']; 
 
