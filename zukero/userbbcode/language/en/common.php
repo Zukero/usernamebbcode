@@ -27,5 +27,5 @@ $lang = array_merge($lang, array(
 	),
 	'NOTIFICATION_TYPE_USERNAME'		=> 'Someone mentions you in a post with a [user] tag',
 	'BBCODE_USERNAME_HELP'				=> 'Mention a user with [user]username[/user] tags',
-	'BBCODE_USERNAME_BUTTON'			=> 'User' 
+	'BBCODE_USERNAME_BUTTON'			=> 'User', 
 ));

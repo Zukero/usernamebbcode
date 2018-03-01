@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * User BBCode. An extension for the phpBB Forum Software package.
+ * Username BBCode. An extension for the phpBB Forum Software package.
  *
  * @copyright (c) 2017, Zukero, github.com/Zukero
  * @license GNU General Public License, version 2 (GPL-2.0)
@@ -31,7 +31,7 @@ class main_listener implements EventSubscriberInterface
 	/** @var \phpbb\user_loader */
 	protected $user_loader;
 	
-	/** @var \phpbb\core\template */
+	/** @var \phpbb\template\template */
 	protected $template;
 	
 	/** @var \phpbb\language\language */
@@ -40,7 +40,6 @@ class main_listener implements EventSubscriberInterface
 	
 	public function __construct(\phpbb\user_loader $user_loader, \phpbb\template\template $template, \phpbb\language\language $language)
 	{
-		$user_loader->load_user_by_username('anonymous');
 		$this->user_loader = $user_loader;
 		$this->template = $template;
 		$this->language = $language;
@@ -64,14 +63,13 @@ class main_listener implements EventSubscriberInterface
 	public function prepare_render_usernamebbcode($event)
 	{
 		preg_match_all('#\[user\]\s*([a-zA-Z0-9._\-\/\s]+?)\s*\[\/user\]#is', $event['html'], $tags); 
-		$counter = 1; 
 		for ($i = 0; $i < sizeof($tags[0]); $i++)
 		{
 			$username = $tags[1][$i];
 			$userid = $this->user_loader->load_user_by_username($username);
 			$user = $this->user_loader->get_user($userid,  true);
 			
-			if ( $user == false or $user['username_clean'] == 'anonymous' )
+			if ( $user == false or $userid == ANONYMOUS )
 			{
 				$userbbcode = $username;
 			}
