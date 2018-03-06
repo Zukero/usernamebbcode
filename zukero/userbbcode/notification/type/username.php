@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * User BBCode. An extension for the phpBB Forum Software package.
+ * Username BBCode. An extension for the phpBB Forum Software package.
  *
  * @copyright (c) 2017, Zukero, github.com/Zukero
  * @license GNU General Public License, version 2 (GPL-2.0)

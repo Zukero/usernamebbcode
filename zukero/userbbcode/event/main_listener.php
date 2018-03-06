@@ -14,6 +14,8 @@ namespace zukero\userbbcode\event;
  * @ignore
  */
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use \DOMDocument;
+use \DOMXPath;
 
 /**
  * User BBCode Event listener.
@@ -56,29 +58,46 @@ class main_listener implements EventSubscriberInterface
 		unset($configurator->tags['user']); 
 
 		// Let's create the new BBCode 
-		$configurator->BBCodes->addCustom( '[user]{TEXT1}[/user]', '[user]{TEXT1}[/user]');
+		$configurator->BBCodes->addCustom( '[user]{TEXT1}[/user]', '<span class="usernamebbcode">{TEXT1}</span>');
 		
 	}
 
 	public function prepare_render_usernamebbcode($event)
 	{
-		preg_match_all('#\[user\]\s*([a-zA-Z0-9._\-\/\s]+?)\s*\[\/user\]#is', $event['html'], $tags); 
-		for ($i = 0; $i < sizeof($tags[0]); $i++)
+		$document = new DOMDocument();
+		//DOMDocument requires a single root element. 
+		$xml = '<doc>'.$event['html'].'</doc>';
+		//Unclosed <br> make XPath choke. 
+		$xml = str_replace( '<br>', '<br/>', $xml);
+		$document->loadXML($xml);
+		$query_tag = "//span[@class='usernamebbcode']";
+		$query_text = "/span/text()";
+		$xpath = new DOMXPath($document);
+		$nodes = $xpath->query($query_tag);
+		foreach ($nodes as $node) 
 		{
-			$username = $tags[1][$i];
+			$username = $node->nodeValue;
+			$username = trim($username);
 			$userid = $this->user_loader->load_user_by_username($username);
-			$user = $this->user_loader->get_user($userid,  true);
-			
-			if ( $user == false or $userid == ANONYMOUS )
+			if ( $userid == ANONYMOUS )
 			{
-				$userbbcode = $username;
+				$newnode = $document->createTextNode($username);
 			}
 			else
 			{
 				$userbbcode = $this->user_loader->get_username($userid, 'full', false, false, true);
+				$d = new DOMDocument();
+				$d->loadXML($userbbcode);
+				$newnode = $d->documentElement;
+				$newnode = $document->importNode($newnode, true);
 			}
-			$event['html'] = str_replace($tags[0][$i], $userbbcode, $event['html']);
+			$node->parentNode->replaceChild($newnode, $node);
 		}
+		$xml = $document->saveXML($document->documentElement);
+		$xml = str_replace('<br/>', '<br>', $xml);
+
+		preg_match('#<doc>(.*)</doc>#smU', $xml, $tags);
+		$event['html'] = $tags[1];
 	}
 
 }

@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * User BBCode. An extension for the phpBB Forum Software package.
+ * Username BBCode. An extension for the phpBB Forum Software package.
  *
  * @copyright (c) 2017, Zukero, github.com/Zukero
  * @license GNU General Public License, version 2 (GPL-2.0)
@@ -120,51 +120,6 @@ class submit_post_listener implements EventSubscriberInterface
 				break;
 			}
 		}
-		else if ($post_visibility == ITEM_UNAPPROVED)
-		{
-			switch ($mode)
-			{
-				case 'post':
-				case 'reply':
-				case 'quote':
-				case 'edit_topic':
-				case 'edit_first_post':
-				case 'edit':
-				case 'edit_last_post':
-					// Nothing to do here
-				break;
-			}
-		}
-		else if ($post_visibility == ITEM_REAPPROVE)
-		{
-			switch ($mode)
-			{
-				case 'edit_topic':
-				case 'edit_first_post':
-				case 'edit':
-				case 'edit_last_post':
-				case 'post':
-				case 'reply':
-				case 'quote':
-					// Nothing to do here
-				break;
-			}
-		}
-		else if ($post_visibility == ITEM_DELETED)
-		{
-			switch ($mode)
-			{
-				case 'post':
-				case 'reply':
-				case 'quote':
-				case 'edit_topic':
-				case 'edit_first_post':
-				case 'edit':
-				case 'edit_last_post':
-					// Nothing to do here
-				break;
-			}
-		}
 	}
 	
 	
@@ -186,7 +141,12 @@ class submit_post_listener implements EventSubscriberInterface
 	 * @var	bool	should_markread		Flag indicating if the markread should be done or not.
 	 * @since 3.1.4-RC1
 	 */
-		extract($event->get_data());
+		$data = $event->get_data();
+		$mode = $data['mode'];
+		$forum_id = $data['forum_id'];
+		$post_time = $data['post_time'];
+		$topic_id = $data['topic_id'];
+		
 		$user_id = $this->user->data['user_id'];
 		if ($mode == 'all')
 		{

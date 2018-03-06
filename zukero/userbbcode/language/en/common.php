@@ -1,13 +1,10 @@
 <?php
 /**
  *
- * This file is part of the phpBB Forum Software package.
+ * Username BBCode. An extension for the phpBB Forum Software package.
  *
- * @copyright (c) phpBB Limited <https://www.phpbb.com>
+ * @copyright (c) 2017, Zukero, github.com/Zukero
  * @license GNU General Public License, version 2 (GPL-2.0)
- *
- * For full copyright and license information, please see
- * the docs/CREDITS.txt file.
  *
  */
 
@@ -27,5 +24,5 @@ $lang = array_merge($lang, array(
 	),
 	'NOTIFICATION_TYPE_USERNAME'		=> 'Someone mentions you in a post with a [user] tag',
 	'BBCODE_USERNAME_HELP'				=> 'Mention a user with [user]username[/user] tags',
-	'BBCODE_USERNAME_BUTTON'			=> 'User', 
+	'BBCODE_USERNAME_BUTTON'			=> 'User',
 ));
