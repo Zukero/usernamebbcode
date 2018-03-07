@@ -66,10 +66,12 @@ class main_listener implements EventSubscriberInterface
 	{
 		$document = new DOMDocument();
 		//DOMDocument requires a single root element. 
-		$xml = '<doc>'.$event['html'].'</doc>';
+		//$xml = '<doc>'.$event['html'].'</doc>';
+		$xml = '<html><body>'.$event['html'].'</body></html>';
 		//Unclosed <br> make XPath choke. 
+		var_dump($xml);
 		$xml = str_replace( '<br>', '<br/>', $xml);
-		$document->loadXML($xml);
+		$document->loadHTML($xml);
 		$query_tag = "//span[@class='usernamebbcode']";
 		$query_text = "/span/text()";
 		$xpath = new DOMXPath($document);
@@ -93,10 +95,10 @@ class main_listener implements EventSubscriberInterface
 			}
 			$node->parentNode->replaceChild($newnode, $node);
 		}
-		$xml = $document->saveXML($document->documentElement);
+		$xml = $document->saveHTML($document->documentElement);
 		$xml = str_replace('<br/>', '<br>', $xml);
 
-		preg_match('#<doc>(.*)</doc>#smU', $xml, $tags);
+		preg_match('#<body>(.*)</body>#smU', $xml, $tags);
 		$event['html'] = $tags[1];
 	}
 

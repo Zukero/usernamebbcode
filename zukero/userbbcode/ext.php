@@ -1,12 +1,13 @@
 <?php
 /**
-*
-* Board Rules extension for the phpBB Forum Software package.
-*
-* @copyright (c) 2013 phpBB Limited <https://www.phpbb.com>
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-*/
+ *
+ * Username BBCode. An extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2017, Zukero, github.com/Zukero
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
+
 
 namespace zukero\userbbcode;
 
