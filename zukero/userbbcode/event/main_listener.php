@@ -65,7 +65,7 @@ class main_listener implements EventSubscriberInterface
 	public function prepare_render_usernamebbcode($event)
 	{
 		$document = new DOMDocument();
-		$xml = '<html><body>'.$event['html'].'</body></html>';
+		$xml = '<html><head><meta charset="utf-8" /></head><body>'.$event['html'].'</body></html>';
 		$document->loadHTML($xml);
 		$query_tag = "//span[@class='usernamebbcode']";
 		$query_text = "/span/text()";
