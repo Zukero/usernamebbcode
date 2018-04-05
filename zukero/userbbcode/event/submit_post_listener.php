@@ -23,7 +23,7 @@ class submit_post_listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.user_setup' => 'load_lang',
+			'core.user_setup_after' => 'load_lang',
 			'core.submit_post_end' => 'notify_mentioned_users',
 			'core.markread_before' => 'mark_mentioned_users_notifications_read'
 		);

@@ -3,8 +3,8 @@
     "type": "phpbb-extension",
     "description": "Adds a [user] bbcode that styles a username and links to his profile",
     "homepage": "github.com/Zukero/userbbcode",
-    "version": "1.0.3",
-    "time": "2018-03-07",
+    "version": "1.0.4",
+    "time": "2018-04-05",
     "license": "GPL-2.0",
     "authors": [
         {

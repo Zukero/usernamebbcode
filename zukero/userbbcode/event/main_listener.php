@@ -84,7 +84,7 @@ class main_listener implements EventSubscriberInterface
 			{
 				$userbbcode = $this->user_loader->get_username($userid, 'full', false, false, true);
 				$d = new DOMDocument();
-				$d->loadXML($userbbcode);
+				$d->loadXML('<?xml version="1.0" encoding="UTF-8"?>'.$userbbcode);
 				$newnode = $d->documentElement;
 				$newnode = $document->importNode($newnode, true);
 			}
