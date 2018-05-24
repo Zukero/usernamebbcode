@@ -1,0 +1,20 @@
+Subject: Notificación de mención en un tema - "{TOPIC_TITLE}"
+
+Hola {USERNAME},
+
+Estás recibiendo esta notificación porque "{AUTHOR_NAME}" te ha mencionado en el tema "{TOPIC_TITLE}" de "{SITENAME}". Puedes usar el siguiente enlace para ver la mención realizada.
+
+Si deseas ver el mensaje donde se te menciona, haz clic en el siguiente enlace:
+{U_VIEW_POST}
+
+Si deseas ver el tema, haz clic en el siguiente enlace:
+{U_TOPIC}
+
+Si deseas ver el foro, haz clic en el siguiente enlace:
+{U_FORUM}
+
+Si ya no deseas recibir actualizaciones sobre las respuestas que te citan, actualiza tu configuración de notificación aquí:
+
+{U_NOTIFICATION_SETTINGS}
+
+{EMAIL_SIG}

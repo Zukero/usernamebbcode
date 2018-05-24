@@ -60,6 +60,9 @@ class main_listener implements EventSubscriberInterface
 		// Let's create the new BBCode 
 		$configurator->BBCodes->addCustom( '[user]{TEXT1}[/user]', '<span class="usernamebbcode">{TEXT1}</span>');
 		
+		//Add the @username and @"user name" syntax
+		$configurator->Preg->match( '/@(?<content>[^\\s]+)/', 'USER');
+		$configurator->Preg->match( '/@"(?<content>.+?)"/', 'USER');
 	}
 
 	public function prepare_render_usernamebbcode($event)
@@ -68,32 +71,54 @@ class main_listener implements EventSubscriberInterface
 		$xml = '<html><head><meta charset="utf-8" /></head><body>'.$event['html'].'</body></html>';
 		$document->loadHTML($xml);
 		$query_tag = "//span[@class='usernamebbcode']";
-		$query_text = "/span/text()";
 		$xpath = new DOMXPath($document);
 		$nodes = $xpath->query($query_tag);
 		foreach ($nodes as $node) 
 		{
 			$username = $node->nodeValue;
+			$username = htmlspecialchars($username);
 			$username = trim($username);
 			$userid = $this->user_loader->load_user_by_username($username);
 			if ( $userid == ANONYMOUS )
 			{
-				$newnode = $document->createTextNode($username);
+				$newnode = $document->createTextNode(htmlspecialchars_decode($username));
+				$node->parentNode->replaceChild($newnode, $node);
 			}
 			else
 			{
 				$userbbcode = $this->user_loader->get_username($userid, 'full', false, false, true);
 				$d = new DOMDocument();
-				$d->loadXML('<?xml version="1.0" encoding="UTF-8"?>'.$userbbcode);
-				$newnode = $d->documentElement;
-				$newnode = $document->importNode($newnode, true);
+				$d->loadXML('<?xml version="1.0" encoding="UTF-8"?><username>'.$userbbcode.'</username>');
+				$tags = $d->documentElement->childNodes;
+				$tags = iterator_to_array($tags);
+				$tags = array_reverse($tags);
+				$first = true;
+				foreach ($tags as $tag)
+				{
+					$tag = $document->importNode($tag, true);
+					if ($first) 
+					{
+						$node->parentNode->replaceChild($tag, $node);
+						$node = $tag;
+						$first = false;
+					}
+					else
+					{
+						$node = $node->parentNode->insertBefore($tag, $node);
+					}
+				}
 			}
-			$node->parentNode->replaceChild($newnode, $node);
 		}
-		$xml = $document->saveHTML($document->documentElement);
-
-		preg_match('#<body>(.*)</body>#smU', $xml, $tags);
-		$event['html'] = $tags[1];
+		$body = $document->getElementsByTagName('body')->item(0);
+		$nodes = $body->childNodes;
+		$html = '';
+		foreach ($nodes as $node)
+		{
+			$html .= $document->saveHTML($node);
+		}
+		$html = $document->saveHTML($body);
+		$content = substr($html, strlen('<body>'), -strlen('</body>'));
+		$event['html'] = $html;
 	}
 
 }
