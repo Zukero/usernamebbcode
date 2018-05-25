@@ -1,0 +1,20 @@
+Subject: Vermeld in topic - "{TOPIC_TITLE}"
+
+Hallo {USERNAME},
+
+Je ontvangt deze notificatie omdat "{AUTHOR_NAME}" je heeft vermeld in "{TOPIC_TITLE}" op "{SITENAME}". Je kan deze links gebruiken om de vermelding te bekijken.
+
+Als je het bericht waarin je vermeld word wil bekijken, volg deze link:
+{U_VIEW_POST}
+
+Als je de topic waarin je vermeld word wil bekijken, volg deze link:
+{U_TOPIC}
+
+Als je het forum waarin je vermeld word wil bekijken, volg deze link:
+{U_FORUM}
+
+Als je niet meer een update wil ontvangen wanneer iemand jou quote, verander dan alstublieft je notificatie instellingen hier:
+
+{U_NOTIFICATION_SETTINGS}
+
+{EMAIL_SIG}
