@@ -1,0 +1,20 @@
+Subject: Benachrichtigung über Erwähnung im Thema - "{TOPIC_TITLE}"
+
+Hallo {USERNAME},
+
+Sie erhalten diese Benachrichtigung, weil Sie von "{AUTHOR_NAME}" im Thema "{TOPIC_TITLE}" auf "{SITENAME}" erwähnt wurden. Mit einem Klick auf dem Link, gelangen Sie zum Thema, wo Sie erwähnt wurden.
+
+Wenn Sie zum Beitrag gelangen möchten, folgen Sie diesem Link:
+{U_VIEW_POST}
+
+Wenn Sie zum Thema gelangen möchten, folgen Sie diesem Link:
+{U_VIEW_POST}
+
+Wenn Sie stattdessen zum Forum gelangen möchten, klicke Sie auf diesen Link:
+{U_FORUM}
+
+Wenn Sie nicht länger über Erwähnungen benachrichtigt werden möchten, dann aktualisieren Sie Ihre Benachrichtigungseinstellungen hier: {U_NOTIFICATION_SETTINGS}
+
+
+
+{EMAIL_SIG}
