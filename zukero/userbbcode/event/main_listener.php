@@ -26,6 +26,7 @@ class main_listener implements EventSubscriberInterface
 	{
 		return array(
 			'core.text_formatter_s9e_configure_after' => 'configure_usernamebbcode',
+			'core.text_formatter_s9e_parser_setup'    => 'configure_parser',
 			'core.text_formatter_s9e_render_after'     => 'prepare_render_usernamebbcode',
 		);
 	}
@@ -45,6 +46,23 @@ class main_listener implements EventSubscriberInterface
 		$this->user_loader = $user_loader;
 		$this->template = $template;
 		$this->language = $language;
+	}
+
+	public function configure_parser($event)
+	{
+		$parser = $event['parser']->get_parser();
+		$parser->registerParser(
+			'ZukeroUserbbcode',
+			function ($text, $matches) use ($parser)
+			{
+				foreach ($matches as $match)
+				{
+					list($str, $pos) = $match[0];
+					$this->add_user_tag($parser, $pos, $str);
+				}
+			},
+			'/@(?:"[^"]+"|[^"\\s]+)/'
+		);
 	}
 
 	public function configure_usernamebbcode($event)
@@ -121,4 +139,11 @@ class main_listener implements EventSubscriberInterface
 		$event['html'] = $html;
 	}
 
+	protected function add_user_tag($parser, $pos, $str)
+	{
+		$start_len = ($str[1] === '"') ? 2 : 1;
+		$end_len   = ($str[1] === '"') ? 1 : 0;
+
+		$parser->addTagPair('USER', $pos, $start_len, $pos + strlen($str) - $end_len, $end_len);
+	}
 }
